@@ -1,51 +1,70 @@
-🚀 SkillBridge AI
-AI Powered Career Guidance & Skill Gap Analysis System
+# 🚀 SkillBridge AI
 
-Version React Node.js MongoDB License
+> **AI-Powered Career Guidance & Skill Gap Analysis System**
 
-📖 Overview
-SkillBridge AI is a Full Stack MERN Application developed to help students become placement-ready.
+SkillBridge AI is a MERN Stack based web application that helps students analyze their resumes, identify missing skills, calculate ATS scores, and receive AI-powered learning recommendations to become placement-ready.
 
-The system allows users to upload resumes, perform AI-based skill gap analysis, calculate ATS Resume Scores, compare skills with target jobs, and receive personalized learning recommendations.
+---
 
-✨ Features
-🔐 User Authentication (JWT)
-👤 User Profile
-📄 Resume Upload (PDF)
-🤖 AI Skill Gap Analysis
-📊 ATS Resume Score
-🎯 Skill Match Percentage
-📚 Learning Recommendations
-🛣 Learning Roadmap
-📜 Analysis History
-📈 Dashboard Analytics
-❌ 404 Page
-🎨 Modern Responsive UI
-🛠 Tech Stack
-Frontend
-React.js
-React Router
-Axios
-Tailwind CSS
-Backend
-Node.js
-Express.js
-Database
-MongoDB
-Mongoose
-Authentication
-JWT
-bcryptjs
-File Upload
-Multer
-📂 Project Structure
+# 📌 Project Overview
+
+SkillBridge AI helps students by:
+
+- 📄 Uploading Resume
+- 🤖 AI Skill Gap Analysis
+- 🎯 Target Job Selection
+- 📊 ATS Resume Score
+- 📈 Skill Match Percentage
+- 📚 Personalized Recommendations
+- 📜 Analysis History
+- 👤 User Profile Dashboard
+
+---
+
+# ✨ Features
+
+- ✅ User Registration & Login
+- ✅ JWT Authentication
+- ✅ Resume Upload
+- ✅ AI Skill Gap Analysis
+- ✅ ATS Score
+- ✅ Skill Match
+- ✅ Missing Skills Detection
+- ✅ Learning Recommendations
+- ✅ Dashboard Analytics
+- ✅ Profile Page
+- ✅ Analysis History
+- ✅ Responsive UI
+
+---
+
+# 🛠 Tech Stack
+
+### Frontend
+- React.js
+- Vite
+- Tailwind CSS
+- React Router
+- Axios
+- React Icons
+
+### Backend
+- Node.js
+- Express.js
+- JWT Authentication
+- Multer
+- bcryptjs
+
+### Database
+- MongoDB
+- Mongoose
+
+---
+
+# 📂 Project Structure
+
+```text
 SkillBridge-AI
-
-├── frontend
-│   ├── components
-│   ├── pages
-│   ├── services
-│   └── App.jsx
 │
 ├── backend
 │   ├── config
@@ -56,52 +75,114 @@ SkillBridge-AI
 │   ├── uploads
 │   └── server.js
 │
+├── frontend
+│   ├── src
+│   ├── public
+│   └── components
+│
 └── README.md
-⚙️ Installation
-Clone Repository
-git clone https://github.com/yourusername/SkillBridge-AI.git
-Backend
+```
+
+---
+
+# 📷 Modules
+
+- Dashboard
+- Login
+- Register
+- Resume Upload
+- AI Analysis
+- Profile
+- History
+
+---
+
+# 🔐 Authentication
+
+- JWT Token Based Authentication
+- Protected Routes
+- Password Hashing using bcryptjs
+
+---
+
+# 🤖 AI Analysis
+
+The system analyzes:
+
+- Existing Skills
+- Missing Skills
+- ATS Score
+- Skill Match
+- Learning Recommendations
+
+---
+
+# 📊 Database
+
+Collections:
+
+- Users
+- Resumes
+- SkillGap Analysis
+
+---
+
+# 🚀 Installation
+
+## Clone Repository
+
+```bash
+git clone https://github.com/your-username/SkillBridge-AI.git
+```
+
+## Backend
+
+```bash
 cd backend
 npm install
 npm run dev
-Frontend
+```
+
+## Frontend
+
+```bash
 cd frontend
 npm install
 npm run dev
-📸 Screenshots
-Add screenshots here after deployment.
+```
 
-Login Page
-Dashboard
-Resume Upload
-AI Analysis
-Profile
-History
-👨‍💻 Project Team
-Deepak
-Mohit
-Krishna Raghav
-🎯 Future Scope
-AI Resume Parsing
-OpenAI / Gemini Integration
-Mock Interview
-Job Recommendation
-ATS Optimization
-Recruiter Dashboard
-College Placement Dashboard
-📚 Learning Outcomes
-MERN Stack Development
-Authentication using JWT
-REST API Development
-MongoDB Database Design
-React Component Architecture
-File Upload using Multer
-📄 License
-This project was developed for educational purposes.
+---
 
-⭐ Developed By
-Team SkillBridge AI
+# 💻 Developed By
 
-Deepak
-Mohit
-Krishna Raghav
+- 👨‍💻 Deepak
+- 👨‍💻 Mohit
+- 👨‍💻 Krishna Raghav
+
+---
+
+# 🎯 Future Scope
+
+- AI Resume Parser
+- AI Mock Interview
+- Job Recommendation
+- Interview Questions
+- Resume Improvement Suggestions
+- Company Wise Skill Analysis
+- AI Career Roadmap
+
+---
+
+# 📚 Academic Information
+
+**Project Name:** SkillBridge AI
+
+**Project Type:** Mini Project (MERN Stack)
+
+**Academic Year:** 2026
+
+---
+
+# ⭐ Thank You
+
+If you like this project, don't forget to ⭐ star the repository.
