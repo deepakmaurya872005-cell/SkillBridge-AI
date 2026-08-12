@@ -44,8 +44,35 @@ skillMatch: {
             {
                 type: String
             }
-        ]
+        ],
+        
+        packagePrediction: {
+    type: String,
+    default: ""
+},
+
+roadmap: [
+    {
+        week: Number,
+        title: String,
+        description: String
+    }
+],
+weaknesses: [
+    {
+        type: String
+    }
+],
+
+
+improvements: [
+    {
+        type: String
+    }
+]
+
     },
+   
     {
         timestamps: true
     }
