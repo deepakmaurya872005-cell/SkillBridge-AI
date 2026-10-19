@@ -5,14 +5,17 @@ import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import StatCard from "../components/StatCard";
-import ResumeChart from "../components/ResumeChart";
-import { Link } from "react-router-dom";
 
+import { Link } from "react-router-dom";
+import Resume from "./Resume";
+import Analysis from "./Analysis";
+import MockInterview from "./MockInterview";
+import VideoInterview from "./VideoInterview";
 
 import {
   FaFileAlt,
   FaRobot,
-  FaUpload,
+  
   FaHistory,
 } from "react-icons/fa";
 
@@ -21,6 +24,7 @@ import { getDashboard } from "../services/dashboardService";
 function Dashboard() {
 
   const [dashboard, setDashboard] = useState(null);
+  const [selectedResumeId, setSelectedResumeId] = useState("");
 
   useEffect(() => {
 
@@ -73,41 +77,20 @@ function Dashboard() {
         <Navbar />
 
         <div className="p-8">
-          <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 rounded-3xl p-8 text-white shadow-2xl mb-8">
+        <div className="bg-gradient-to-r from-blue-50 via-white to-indigo-50 rounded-3xl p-8 border border-blue-100 shadow-lg mb-8">
 
-  <h1 className="text-4xl font-extrabold">
-    👋 Welcome to SkillBridge AI
-  </h1>
+ <h1 className="text-4xl font-extrabold text-slate-900">
+  👋 Welcome to SkillBridge AI
+</h1>
 
-  <p className="mt-3 text-blue-100 text-lg">
-    Upload your resume, analyze your skills, and become placement-ready with AI guidance.
-  </p>
-
+ <p className="mt-3 text-slate-600 text-lg">
+  Upload your resume, analyze your skills, and become placement-ready with AI guidance.
+</p>
 </div>
 
             <div className="grid md:grid-cols-3 gap-6 mt-8 mb-8">
 
-  <Link
-    to="/resume"
-    className="group bg-white/80 backdrop-blur-xl rounded-3xl border border-white/30 shadow-xl p-6 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
-  >
-   <FaUpload className="text-4xl text-blue-600 mb-4 group-hover:scale-110 transition-all duration-500" /> 
-    <h2 className="text-xl font-bold">Upload Resume</h2>
-    <p className="text-gray-500 mt-2">
-      Upload your latest resume for AI analysis.
-    </p>
-  </Link>
 
-  <Link
-    to="/analysis"
-     className="group bg-white/80 backdrop-blur-xl rounded-3xl border border-white/30 shadow-xl p-6 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
-  >
-   <FaHistory className="text-4xl text-purple-600 mb-4 group-hover:scale-110 transition-all duration-500" />
-    <h2 className="text-xl font-bold">AI Analysis</h2>
-    <p className="text-gray-500 mt-2">
-      Analyze your skills and find missing technologies.
-    </p>
-  </Link>
 
   <Link
     to="/history"
@@ -139,7 +122,7 @@ function Dashboard() {
 
           <div className="grid lg:grid-cols-2 gap-6 mt-8">
 
-            <div className="bg-gradient-to-br from-white to-blue-50 rounded-3xl shadow-xl hover:scale-105 hover:shadow-2xl transition-all duration-300 p-6 border border-blue-100">
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-6">
 
               <h2 className="text-xl font-bold mb-4">
                 📄 Latest Resume
@@ -152,7 +135,7 @@ function Dashboard() {
             </div>
            
 
-            <div className="bg-gradient-to-br from-white to-green-50 rounded-3xl shadow-xl hover:scale-105 hover:shadow-2xl transition-all duration-300 p-6 border border-green-100">
+              <div className="bg-white rounded-3xl border border-slate-200 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-6">
 
               <h2 className="text-xl font-bold mb-4">
                 🎯 Latest Target Job
@@ -197,17 +180,55 @@ function Dashboard() {
 
     <div className="bg-orange-50 rounded-2xl p-5 text-center">
       <p className="text-sm text-slate-500">Status</p>
-      <h3 className="text-lg font-bold text-orange-600 mt-2">
-        {dashboard.totalAnalysis > 0
-          ? "🟢 Placement Ready"
-          : "🟡 Analyze Resume"}
-      </h3>
+       <p className="text-sm text-slate-500">
+       Career Readiness
+      </p>
     </div>
 
   </div>
 
 </div>
-          <ResumeChart />
+<div className="mt-8">
+  <Resume
+    onUploadSuccess={(resume) => {
+      setSelectedResumeId(resume._id);
+    }}
+  />
+</div>
+
+<div className="mt-10 mb-4">
+  <h2 className="text-3xl font-extrabold text-slate-800">
+    📄 Step 1: Upload Your Resume
+  </h2>
+
+  <p className="text-slate-500 mt-2">
+    Upload your latest PDF resume to begin your SkillBridge AI journey.
+  </p>
+</div>
+
+<div className="mt-10 mb-4">
+  <h2 className="text-3xl font-extrabold text-slate-800">
+    🤖 Step 2: AI Resume Analysis
+  </h2>
+
+  <p className="text-slate-500 mt-2">
+    Select your target job and analyze your uploaded resume to get
+    personalized career insights.
+  </p>
+</div>
+
+<div className="mt-6">
+  <Analysis selectedResumeId={selectedResumeId} />
+</div>
+
+<div className="mt-10">
+  <MockInterview />
+</div>
+
+<div className="mt-10">
+  <VideoInterview />
+</div>
+
 
           <div className="mt-8 bg-white rounded-3xl shadow-xl border border-slate-200 p-8">
 
@@ -217,50 +238,94 @@ function Dashboard() {
 
   <div className="grid md:grid-cols-2 gap-8">
 
-    {/* Project Details */}
-    <div>
-      <h3 className="text-xl font-semibold text-blue-700 mb-4">
-        🚀 SkillBridge AI v1.0
-      </h3>
+    {/* ================= DATA SOURCES & AI FLOW ================= */}
 
-      <p className="text-slate-600 leading-7">
-        SkillBridge AI is an AI-powered Career Guidance System that helps
-        students upload resumes, analyze skill gaps, calculate ATS Resume
-        Score, compare skills with target jobs, and receive personalized
-        learning recommendations and roadmaps.
+<div className="mt-10 bg-white rounded-3xl shadow-xl border border-slate-200 p-8">
+
+  <h2 className="text-2xl font-bold text-slate-800 mb-2">
+    🔄 Data Sources & AI Processing Flow
+  </h2>
+
+  <p className="text-slate-500 mb-8">
+    SkillBridge AI processes user-provided resume data and profile information
+    to generate personalized career insights.
+  </p>
+
+  <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
+
+    {/* Step 1 */}
+    <div className="bg-blue-50 rounded-2xl p-5 text-center">
+      <div className="text-4xl mb-3">👤</div>
+      <h3 className="font-bold text-slate-800">
+        User Profile
+      </h3>
+      <p className="text-sm text-slate-500 mt-2">
+        Projects, certifications and GitHub profile
       </p>
-
-      <div className="mt-5 space-y-2">
-        <p><strong>Department:</strong> Computer Science</p>
-        <p><strong>Academic Session:</strong> 2026–27</p>
-        <p><strong>Project Version:</strong> 1.0</p>
-      </div>
     </div>
 
-    {/* Team */}
-    <div>
-
-      <h3 className="text-xl font-semibold text-green-700 mb-4">
-        👨‍💻 Project Team
+    {/* Step 2 */}
+    <div className="bg-purple-50 rounded-2xl p-5 text-center">
+      <div className="text-4xl mb-3">📄</div>
+      <h3 className="font-bold text-slate-800">
+        Resume PDF
       </h3>
-
-      <div className="space-y-3">
-
-        <div className="bg-slate-100 rounded-xl p-4">
-          👤 <strong>Deepak</strong>
-        </div>
-
-        <div className="bg-slate-100 rounded-xl p-4">
-          👤 <strong>Mohit</strong>
-        </div>
-
-        <div className="bg-slate-100 rounded-xl p-4">
-          👤 <strong>Krishna Raghav</strong>
-        </div>
-
-      </div>
-
+      <p className="text-sm text-slate-500 mt-2">
+        Resume uploaded by the logged-in student
+      </p>
     </div>
+
+    {/* Step 3 */}
+    <div className="bg-green-50 rounded-2xl p-5 text-center">
+      <div className="text-4xl mb-3">🧠</div>
+      <h3 className="font-bold text-slate-800">
+        Skill Analysis
+      </h3>
+      <p className="text-sm text-slate-500 mt-2">
+        Resume skills compared with target job skills
+      </p>
+    </div>
+
+    {/* Step 4 */}
+    <div className="bg-orange-50 rounded-2xl p-5 text-center">
+      <div className="text-4xl mb-3">🤖</div>
+      <h3 className="font-bold text-slate-800">
+        AI Processing
+      </h3>
+      <p className="text-sm text-slate-500 mt-2">
+        ATS, skill gap, recommendations and roadmap
+      </p>
+    </div>
+
+    {/* Step 5 */}
+    <div className="bg-pink-50 rounded-2xl p-5 text-center">
+      <div className="text-4xl mb-3">📊</div>
+      <h3 className="font-bold text-slate-800">
+        Career Insights
+      </h3>
+      <p className="text-sm text-slate-500 mt-2">
+        Personalized results stored in MongoDB
+      </p>
+    </div>
+
+  </div>
+
+  <div className="mt-8 bg-slate-50 rounded-2xl p-5 border border-slate-200">
+
+    <p className="text-center font-semibold text-slate-700">
+      User Profile + Resume PDF → Skill Detection → AI Analysis →
+      Personalized Career Recommendations
+    </p>
+
+  </div>
+
+</div>
+
+   
+
+
+
+    
 
   </div>
 

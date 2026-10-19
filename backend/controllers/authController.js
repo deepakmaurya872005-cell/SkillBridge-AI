@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 // ================= REGISTER =================
+
 const registerUser = async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -40,6 +41,7 @@ const registerUser = async (req, res) => {
 };
 
 // ================= LOGIN =================
+
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -89,6 +91,7 @@ const loginUser = async (req, res) => {
 };
 
 // ================= GET PROFILE =================
+
 const getProfile = async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select("-password");
@@ -111,8 +114,52 @@ const getProfile = async (req, res) => {
     }
 };
 
+// ================= UPDATE PROFILE =================
+
+const updateProfile = async (req, res) => {
+    try {
+        const {
+            projects,
+            certifications,
+            githubProfile
+        } = req.body;
+
+        const user = await User.findByIdAndUpdate(
+            req.user.id,
+            {
+                projects,
+                certifications,
+                githubProfile
+            },
+            {
+                new: true,
+                runValidators: true
+            }
+        ).select("-password");
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+
+        res.status(200).json({
+            message: "Profile updated successfully",
+            user
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+};
+
+// ================= EXPORT =================
+
 module.exports = {
     registerUser,
     loginUser,
-    getProfile
+    getProfile,
+    updateProfile
 };

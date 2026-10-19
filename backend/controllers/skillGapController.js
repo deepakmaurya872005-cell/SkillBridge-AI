@@ -1,5 +1,13 @@
+
 const SkillGap = require("../models/SkillGap");
 const Resume = require("../models/Resume");
+
+const User = require("../models/User");
+
+const {
+    getLearningResources
+} = require("../services/learningResourceService");
+
 
 const extractPdfText = require("../utils/pdfReader");
 const skillDatabase = require("../utils/skillDatabase");
@@ -35,6 +43,14 @@ const analyzeResume = async (req, res) => {
                 message: "Resume not found"
             });
         }
+
+        const user = await User.findById(req.user.id);
+
+if (!user) {
+    return res.status(404).json({
+        message: "User not found"
+    });
+}
 
               // =============================
              // Read Resume PDF
@@ -84,7 +100,11 @@ const atsScore = calculateATS(
     resumeText
 );
 
-
+console.log("========== USER CAREER DATA ==========");
+console.log("Projects:", user.projects);
+console.log("Certifications:", user.certifications);
+console.log("GitHub:", user.githubProfile);
+console.log("======================================");
 
 
 // Predict Package
@@ -92,9 +112,9 @@ const packagePrediction = predictPackage(
     targetJob,
     atsScore,
     skillMatch,
-    3,      // Projects
-    2,      // Certifications
-    1       // GitHub Available
+    user.projects,
+    user.certifications,
+    user.githubProfile ? 1 : 0
 );
 
 // Generate Suggestions
@@ -103,6 +123,16 @@ const recommendations = generateSuggestions(
     skillMatch,
     atsScore
 );
+
+const learningResources =
+    getLearningResources(
+        missingSkills
+    );
+
+
+console.log("Missing Skills:", missingSkills);
+console.log("Learning Resources:", learningResources);
+
 
 const weaknesses = detectWeaknesses(resumeText);
 const improvements = generateImprovements(weaknesses);
@@ -113,8 +143,7 @@ const roadmap = generateRoadmap(
 );
 
 
-
-       const analysis = await SkillGap.create({
+   const analysis = await SkillGap.create({
     user: req.user.id,
     resume: resume._id,
     targetJob,
@@ -124,15 +153,20 @@ const roadmap = generateRoadmap(
 
     existingSkills,
     missingSkills,
-
     recommendations,
 
     packagePrediction,
 
+    projects: user.projects,
+    certifications: user.certifications,
+    githubAvailable: Boolean(user.githubProfile),
+
+    learningResources,
     roadmap,
     weaknesses,
     improvements
 });
+
 
 res.status(201).json({
     message: "AI Analysis Completed",
@@ -176,7 +210,34 @@ const getAnalysisHistory = async (req, res) => {
     }
 };
 
+// ================= DELETE AI ANALYSIS =================
+
+const deleteAnalysis = async (req, res) => {
+    try {
+        const analysis = await SkillGap.findOneAndDelete({
+            _id: req.params.id,
+            user: req.user.id
+        });
+
+        if (!analysis) {
+            return res.status(404).json({
+                message: "Analysis not found"
+            });
+        }
+
+        res.status(200).json({
+            message: "Analysis deleted successfully"
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+};
+
 module.exports = {
     analyzeResume,
-    getAnalysisHistory
+    getAnalysisHistory,
+    deleteAnalysis
 };

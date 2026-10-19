@@ -11,7 +11,7 @@ const authRoutes = require("./routes/authRoutes");
 const resumeRoutes = require("./routes/resumeRoutes");
 const skillGapRoutes = require("./routes/skillGapRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
-
+const mockInterviewRoutes = require("./routes/mockInterviewRoutes");
 
 const app = express();
 
@@ -22,6 +22,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/resume", resumeRoutes);
 app.use("/api/skill-gap", skillGapRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/mock-interview", mockInterviewRoutes);
 
 app.use("/uploads", express.static("uploads"));
 

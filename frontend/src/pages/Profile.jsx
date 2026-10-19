@@ -4,17 +4,28 @@ import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 
 import { useEffect, useState } from "react";
-import { getProfile } from "../services/profileService";
+import { getProfile, updateProfile } from "../services/profileService";
 
 const Profile = () => {
 
     const [user, setUser] = useState(null);
+    const [projects, setProjects] = useState(0);
+    const [certifications, setCertifications] = useState(0);
+    const [githubProfile, setGithubProfile] = useState("");
+    const [saving, setSaving] = useState(false);
+
 
 useEffect(() => {
   const loadProfile = async () => {
     try {
       const data = await getProfile();
       setUser(data.user);
+
+     setProjects(data.user.projects || 0);
+     setCertifications(data.user.certifications || 0);
+     setGithubProfile(data.user.githubProfile || "");
+
+
     } catch (error) {
       console.log(error);
     }
@@ -22,6 +33,31 @@ useEffect(() => {
 
   loadProfile();
 }, []);
+
+const handleSaveProfile = async () => {
+  try {
+    setSaving(true);
+
+    const data = await updateProfile({
+      projects: Number(projects),
+      certifications: Number(certifications),
+      githubProfile,
+    });
+
+    setUser(data.user);
+
+    alert("Profile updated successfully");
+  } catch (error) {
+    console.log(error);
+
+    alert(
+      error.response?.data?.message ||
+      "Failed to update profile"
+    );
+  } finally {
+    setSaving(false);
+  }
+};
 
 if (!user) {
   return (
@@ -170,21 +206,74 @@ if (!user) {
 
               </div>
 
-              <div className="mt-10 flex justify-center">
+              <div className="mt-10 bg-slate-50 rounded-2xl p-8 border border-slate-200">
+  <h3 className="text-2xl font-bold text-slate-800 mb-6">
+    🚀 Career Profile Details
+  </h3>
 
-                <button className="flex items-center gap-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-indigo-600 hover:to-purple-600 text-white px-8 py-3 rounded-2xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300">
-                 <p className="text-center text-slate-500 mt-4">
-                   🚀 More profile customization features will be available in Version 2.0
-                  </p>
-                  
-                  <FaEdit />
+  <div className="grid md:grid-cols-2 gap-6">
 
-                  Edit Profile (Coming Soon)
+    {/* Projects */}
+    <div>
+      <label className="block font-semibold text-slate-700 mb-2">
+        Number of Projects
+      </label>
 
-                </button>
+      <input
+        type="number"
+        min="0"
+        value={projects}
+        onChange={(e) => setProjects(e.target.value)}
+        className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Enter number of projects"
+      />
+    </div>
 
-              </div>
+    {/* Certifications */}
+    <div>
+      <label className="block font-semibold text-slate-700 mb-2">
+        Number of Certifications
+      </label>
 
+      <input
+        type="number"
+        min="0"
+        value={certifications}
+        onChange={(e) => setCertifications(e.target.value)}
+        className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-green-500"
+        placeholder="Enter number of certifications"
+      />
+    </div>
+
+    {/* GitHub */}
+    <div className="md:col-span-2">
+      <label className="block font-semibold text-slate-700 mb-2">
+        GitHub Profile
+      </label>
+
+      <input
+        type="url"
+        value={githubProfile}
+        onChange={(e) => setGithubProfile(e.target.value)}
+        className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+        placeholder="https://github.com/yourusername"
+      />
+    </div>
+
+  </div>
+
+  <div className="mt-6 flex justify-end">
+    <button
+      onClick={handleSaveProfile}
+      disabled={saving}
+      className="flex items-center gap-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-indigo-600 hover:to-purple-600 disabled:opacity-50 text-white px-8 py-3 rounded-xl font-semibold shadow-lg transition-all"
+    >
+      <FaEdit />
+
+      {saving ? "Saving..." : "Save Profile"}
+    </button>
+  </div>
+</div>
             </div>
 
           </div>

@@ -45,10 +45,47 @@ skillMatch: {
                 type: String
             }
         ],
-        
-        packagePrediction: {
+
+        learningResources: [
+    {
+        skill: String,
+
+        youtube: {
+            title: String,
+            url: String
+        },
+
+        documentation: String,
+
+        practiceProject: String,
+
+        quiz: String,
+
+        notes: String,
+
+        difficulty: String,
+
+        duration: String
+    }
+],
+   packagePrediction: {
     type: String,
     default: ""
+},
+
+projects: {
+    type: Number,
+    default: 0
+},
+
+certifications: {
+    type: Number,
+    default: 0
+},
+
+githubAvailable: {
+    type: Boolean,
+    default: false
 },
 
 roadmap: [

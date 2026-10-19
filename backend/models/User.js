@@ -30,6 +30,21 @@ const userSchema = new mongoose.Schema(
             default: []
         },
 
+        projects: {
+    type: Number,
+    default: 0
+},
+
+certifications: {
+    type: Number,
+    default: 0
+},
+
+githubProfile: {
+    type: String,
+    default: ""
+},
+
         resume: {
             type: String,
             default: ""

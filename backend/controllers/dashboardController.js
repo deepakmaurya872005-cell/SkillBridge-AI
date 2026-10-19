@@ -3,7 +3,6 @@ const SkillGap = require("../models/SkillGap");
 
 const getDashboard = async (req, res) => {
     try {
-
         const totalResumes = await Resume.countDocuments({
             user: req.user.id
         });
@@ -21,23 +20,16 @@ const getDashboard = async (req, res) => {
         }).sort({ createdAt: -1 });
 
         res.status(200).json({
-
             totalResumes,
-
             totalAnalysis,
-
             latestResume,
-
             latestAnalysis
-
         });
 
     } catch (error) {
-
         res.status(500).json({
             message: error.message
         });
-
     }
 };
 

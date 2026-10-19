@@ -2,7 +2,9 @@
 import api from "../services/api";
 import { useEffect, useState } from "react";
 import { getMyResumes, deleteResume } from "../services/resumeService";
-const Resume = () => {
+
+const Resume = ({ onUploadSuccess }) => {
+
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [resumes, setResumes] = useState([]);
@@ -28,11 +30,17 @@ const Resume = () => {
         },
       });
 
+      console.log("UPLOAD RESPONSE:", res.data);
+
       alert(res.data.message);
 
-      setFile(null);
+setFile(null);
 
-      loadResumes();
+await loadResumes();
+
+if (onUploadSuccess && res.data.resume) {
+  onUploadSuccess(res.data.resume);
+}
 
     } catch (err) {
       alert(err.response?.data?.message || "Upload Failed");
@@ -78,7 +86,7 @@ useEffect(() => {
 }, []);
 
   return (
-    <div className="min-h-screen bg-slate-100 flex justify-center items-center">
+   <div className="w-full">
 
       <div className="bg-white shadow-xl rounded-2xl p-10 w-full max-w-xl">
 
